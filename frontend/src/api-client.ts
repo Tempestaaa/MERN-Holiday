@@ -1,3 +1,4 @@
+import { HotelAdd } from "./types/hotel";
 import { UserLogin, UserRegister } from "./types/user";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
@@ -53,4 +54,18 @@ export const logout = async () => {
   if (!res.ok) {
     throw new Error("Error during logout");
   }
+};
+
+export const addMyHotel = async (data: HotelAdd) => {
+  const res = await fetch(`${API_BASE_URL}/api/my-hotels`, {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to add hotel");
+  }
+
+  return res.json();
 };

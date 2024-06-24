@@ -1,28 +1,33 @@
-import { InputHTMLAttributes, forwardRef } from "react";
+import { SelectHTMLAttributes, forwardRef } from "react";
 import { FieldError } from "react-hook-form";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
-  type?: string;
+  options?: number[];
+  styles: string;
   error?: FieldError | undefined;
-  styles?: string;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, type, styles, error, ...rest }, ref) => {
+const Select = forwardRef<HTMLSelectElement, SelectProps>(
+  ({ label, options, styles, error, ...rest }, ref) => {
     return (
       <label
         className={`flex flex-col gap-1 w-full text-gray-700 font-bold ${styles}`}
       >
         {label}
-        <input
-          type={type}
+        <select
           {...rest}
           ref={ref}
           className={`px-4 py-2 rounded-xl border-2 shadow-sm font-normal ${
             error && "border-red-500"
           }`}
-        />
+        >
+          {options?.map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
         {error && (
           <p className="text-xs text-red-500 font-bold">{error.message}</p>
         )}
@@ -31,6 +36,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   }
 );
 
-Input.displayName = "Input";
+Select.displayName = "Select";
 
-export default Input;
+export default Select;
